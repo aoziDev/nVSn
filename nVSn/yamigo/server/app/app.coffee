@@ -46,6 +46,9 @@ app.use (req, res, next) ->
 
 #require('./routes')(app)
 
+app.get '/Hello', (req, res) ->
+    res.send 'Hello World'
+
 # error handlers
 app.use (err, req, res, next) ->
   err = new Error err if err and not (err instanceof Error)

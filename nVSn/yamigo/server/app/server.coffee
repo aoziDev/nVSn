@@ -11,13 +11,13 @@ registerHandlers = ->
 fork = (exec) ->
   cluster.setupMaster()
   cluster.settings.exec = exec
-  worker = cluster.fork
+  worker = cluster.fork()
   worker.exec = exec
 
 startWorkers = ->
   numCPUs = require('os').cpus().length
   numCPUs = 1 if single_process
-  console.log __dirname
+  
   for i in [0...numCPUs]
     fork __dirname + '/app.coffee'
 
