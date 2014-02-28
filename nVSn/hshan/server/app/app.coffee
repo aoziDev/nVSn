@@ -14,6 +14,7 @@ app.use express.session
  store: app.sessionStore
  secret: CONFIG.session_secret
  cookie: maxAge: CONFIG.session_ttl * 1000
+app.use express.bodyParser()
 
 app.use (req, res, next) ->
 	d = domain.create()
@@ -27,8 +28,7 @@ app.use (req, res, next) ->
 	d.run ->
 		next()
 
-app.get '/Test', (req, res) ->
-	res.send 'Success test'
+require('./routes') app
 
 # error handlers
 app.use (err, req, res, next) ->
