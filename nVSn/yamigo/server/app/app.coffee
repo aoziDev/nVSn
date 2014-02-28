@@ -44,10 +44,7 @@ app.use (req, res, next) ->
   d.run ->
     next()
 
-#require('./routes')(app)
-
-app.get '/Hello', (req, res) ->
-    res.send 'Hello World'
+require('./routes')(app)
 
 # error handlers
 app.use (err, req, res, next) ->

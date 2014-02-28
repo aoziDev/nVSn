@@ -4,6 +4,10 @@ module.exports =
   project_root: path.resolve __dirname, '..'
 
   app_title: 'nVSn'
+
+  database:
+    type: 'mongodb'
+    database: 'nVSn'
   
   log4js_config:
     appenders: [ {
