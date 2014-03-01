@@ -1,11 +1,6 @@
-CONFIG = require 'config'
 crypto = require 'crypto'
-mongoose = require 'mongoose'
 
-db = mongoose.connect CONFIG.db_uri
-UserModel = ->
-
-defineModels = ->
+defineModel = (mongoose, fn) ->
 	Schema = mongoose.Schema
 	ObjectId = Schema.ObjectId
 
@@ -36,31 +31,8 @@ defineModels = ->
 	User.pre 'save', (next) ->
 		do next					
 
-	UserModel = mongoose.model 'User', User
+	mongoose.model('User', User)
 
-do defineModels
+	do fn
 
-exports.addUser = (req, res) ->
-	user = new UserModel()
-	user.email = req.body.email
-	user.password = req.body.password
-	UserModel.findOne email: user.email, (err, _user) ->
-		console.log _user
-		(user.save () ->) if not _user and not err
-
-exports.login = (req, res) ->
-	UserModel.findOne email: req.body.email, (err, _user) ->
-		if _user and _user.authenticate req.body.password
-			console.log "session.login_id : #{req.session.login_id}"
-			console.log 'sucess login'
-			console.log "_user.email : #{_user.email}"
-			req.session.login_id = _user.email
-			console.log "after set req.session.login_id : #{req.session.login_id}"
-		else
-			console.log 'fail login'
-
-exports.logout = (req, res) ->
-	console.log 'before => ' + req.session.login_id
-	delete req.session?.login_id
-	console.log 'after => ' + req.session.login_id
-	console.log 'logout'
+exports.defineModel = defineModel

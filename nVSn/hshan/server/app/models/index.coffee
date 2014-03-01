@@ -1,4 +1,1 @@
-
-module.exports = ->
-	require './models'
-
+# Nothing to do yet.

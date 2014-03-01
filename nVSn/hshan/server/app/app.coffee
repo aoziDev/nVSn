@@ -1,6 +1,8 @@
 CONFIG = require 'config'
 domain = require 'domain'
 express = require 'express'
+mongoose = require 'mongoose'
+userModel = require './models/user'
 redis = require 'redis'
 RedisStore = require('connect-redis')(express)
 
@@ -27,6 +29,10 @@ app.use (req, res, next) ->
 		d.dispose()
 	d.run ->
 		next()
+
+userModel.defineModel mongoose, ->
+	app.User = mongoose.model('User')
+	mongoose.connect CONFIG.db_uri	
 
 require('./routes') app
 
