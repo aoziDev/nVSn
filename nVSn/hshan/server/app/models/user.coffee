@@ -12,21 +12,21 @@ defineModel = (mongoose, fn) ->
 		
 	User.virtual('password')
 		.set (password) ->
-			@._password = password
-			@.salt = do @.makeSalt
-			@.hashed_password = @.encryptPassword password
+			@_password = password
+			@salt = do @.makeSalt
+			@hashed_password = @.encryptPassword password
 		.get ->
-			@._password
+			@_password
 
 	User.method 'makeSalt', ->
 		Math.round (new Date().valueOf() * Math.random()) + '';
 
 	User.method 'authenticate', (password) ->
-		@.hashed_password is @.encryptPassword(password) 
+		@hashed_password is @encryptPassword(password) 
 					
  
 	User.method 'encryptPassword', (password) ->
-		crypto.createHmac('sha1', @.salt).update(password).digest 'hex'
+		crypto.createHmac('sha1', @salt).update(password).digest 'hex'
 
 	User.pre 'save', (next) ->
 		do next					
