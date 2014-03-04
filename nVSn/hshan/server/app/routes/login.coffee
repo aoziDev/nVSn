@@ -8,18 +8,24 @@ module.exports = (app) ->
 		UserModel.findOne email: user.email, (err, _user) ->
 			console.log _user
 			(user.save () ->) if not _user and not err
-		res.send ''
+		res.send 'signup'
 
-	app.get '/login', (req, res) ->
+	app.post '/login', (req, res) ->
 		UserModel.findOne email: req.body.email, (err, _user) ->
 			if _user and _user.authenticate req.body.password
 				req.session.login_id = user.email
+				result = 'sucess'
+				console.log "login success result = #{result}"
 			else
+				result = 'fail'
+				console.log "login fail result = #{result}"
 				console.log 'fail login'
-		res.send ''
+
+			console.log "before return = #{result}"
+			res.send "{result:#{result}}" 
 
 	app.get '/logout', (req, res) ->
 		delete req.session?.login_id
-		res.send ''	
+		res.send 'logout'	
 	
 	
