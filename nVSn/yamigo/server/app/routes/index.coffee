@@ -16,6 +16,8 @@ _getConnectionState = ->
 # Routes for Express
 # @module routes
 module.exports = (app) ->
+  require('./helper')(app)
+
   app.use (req, res, next) ->
     origin = req.get 'Origin'
     if origin is 'http://localhost:9000' or origin is 'http://127.0.0.1:9000' or origin is 'http://10signals.croquis.com'
