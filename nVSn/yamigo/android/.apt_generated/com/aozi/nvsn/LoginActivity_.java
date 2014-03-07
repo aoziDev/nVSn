@@ -16,8 +16,8 @@ import com.aozi.nvsn.R.layout;
 import org.androidannotations.api.view.HasViews;
 import org.androidannotations.api.view.OnViewChangedNotifier;
 
-public final class MainActivity_
-    extends MainActivity
+public final class LoginActivity_
+    extends LoginActivity
     implements HasViews
 {
 
@@ -29,7 +29,7 @@ public final class MainActivity_
         init_(savedInstanceState);
         super.onCreate(savedInstanceState);
         OnViewChangedNotifier.replaceNotifier(previousNotifier);
-        setContentView(layout.main);
+        setContentView(layout.login);
     }
 
     private void init_(Bundle savedInstanceState) {
@@ -53,12 +53,12 @@ public final class MainActivity_
         onViewChangedNotifier_.notifyViewChanged(this);
     }
 
-    public static MainActivity_.IntentBuilder_ intent(Context context) {
-        return new MainActivity_.IntentBuilder_(context);
+    public static LoginActivity_.IntentBuilder_ intent(Context context) {
+        return new LoginActivity_.IntentBuilder_(context);
     }
 
-    public static MainActivity_.IntentBuilder_ intent(Fragment supportFragment) {
-        return new MainActivity_.IntentBuilder_(supportFragment);
+    public static LoginActivity_.IntentBuilder_ intent(Fragment supportFragment) {
+        return new LoginActivity_.IntentBuilder_(supportFragment);
     }
 
     public static class IntentBuilder_ {
@@ -69,20 +69,20 @@ public final class MainActivity_
 
         public IntentBuilder_(Context context) {
             context_ = context;
-            intent_ = new Intent(context, MainActivity_.class);
+            intent_ = new Intent(context, LoginActivity_.class);
         }
 
         public IntentBuilder_(Fragment fragment) {
             fragmentSupport_ = fragment;
             context_ = fragment.getActivity();
-            intent_ = new Intent(context_, MainActivity_.class);
+            intent_ = new Intent(context_, LoginActivity_.class);
         }
 
         public Intent get() {
             return intent_;
         }
 
-        public MainActivity_.IntentBuilder_ flags(int flags) {
+        public LoginActivity_.IntentBuilder_ flags(int flags) {
             intent_.setFlags(flags);
             return this;
         }

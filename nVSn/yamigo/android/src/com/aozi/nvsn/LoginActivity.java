@@ -4,7 +4,7 @@ import org.androidannotations.annotations.EActivity;
 
 import android.app.Activity;
 
-@EActivity(R.layout.main)
-public class MainActivity extends Activity {
+@EActivity(R.layout.login)
+public class LoginActivity extends Activity {
 
 }
