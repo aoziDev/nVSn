@@ -8,25 +8,22 @@ import org.androidannotations.annotations.ViewById;
 import android.app.Activity;
 import android.widget.EditText;
 
-@EActivity(R.layout.login)
-public class LoginActivity extends Activity {
+@EActivity(R.layout.signup)
+public class SignUpActivity extends Activity{
 	@ViewById
 	EditText email;
 	@ViewById
 	EditText password;
+	@ViewById
+	EditText passwordConfirmation;
 	
 	@AfterInject
-	void init() {
-		setTitle("LogIn");
-	}
-	
-	@Click
-	void login(){
-		
+	void init(){
+		setTitle("SignUp");
 	}
 	
 	@Click
 	void signup() {
-		SignUpActivity_.intent(LoginActivity.this).start();
+		
 	}
 }
