@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">nVSn</string>
+    <string name="app_name">TestClient</string>
     
     <!-- Login -->
     <string name="login_hint_email">Email</string>

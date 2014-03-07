@@ -1,6 +1,10 @@
-bin
-gen
 node_modules
 .apt_generated
 
+/nVSn/yamigo/TestClient/bin
+/nVSn/yamigo/TestClient/gen
+
+
+/nVSn/hshan/android/bin
+/nVSn/hshan/android/gen
 /nVSn/hshan/server/config/runtime.json

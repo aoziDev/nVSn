@@ -1,4 +1,4 @@
-package com.aozi.nvsn;
+package com.aozi.testclient;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -15,7 +15,7 @@ public class LoginActivity extends Activity {
 	EditText password;
 	
 	@Click
-	void login() {
+	void login(){
 		
 	}
 	
