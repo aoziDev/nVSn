@@ -1,16 +1,6 @@
-# ============== yamigo ================== #
-# server
-/nVSn/yamigo/server/node_modules
+bin
+gen
+node_modules
+.apt_generated
 
-# android
-/nVSn/yamigo/android/bin
-/nVSn/yamigo/android/gen
-
-# ================ hahan ================= #
-# server
-/nVSn/hshan/server/node_modules
 /nVSn/hshan/server/config/runtime.json
-
-# android
-/nVSn/hshan/android/bin
-/nVSn/hshan/android/gen
