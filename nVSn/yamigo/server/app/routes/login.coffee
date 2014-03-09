@@ -1,4 +1,6 @@
 CONFIG = require 'config'
+models = require '../models'
+User = models.User
 
 module.exports = (app) ->
   ##
