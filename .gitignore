@@ -3,6 +3,8 @@ node_modules
 
 /nVSn/yamigo/TestClient/bin
 /nVSn/yamigo/TestClient/gen
+/nVSn/yamigo/server/build
+/nVSn/yamigo/server/config/runtime.json
 
 
 /nVSn/hshan/android/bin

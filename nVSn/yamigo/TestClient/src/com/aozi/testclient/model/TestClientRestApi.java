@@ -13,7 +13,7 @@ import com.croquis.util.RestClient.RestError;
 
 @EBean(scope=Scope.Singleton)
 public class TestClientRestApi{
-	public static final String SERVER_URL = "http://127.0.0.1/api/1/";
+	public static final String SERVER_URL = "http://192.168.56.1:3000/api/1/";
 	@Bean
 	RestClient mRestClient;
 	
