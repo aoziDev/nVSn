@@ -12,7 +12,7 @@ import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.aozi.testclient.model.TestClientRestApi;
+import com.aozi.testclient.util.TestClientRestApi;
 import com.croquis.util.RestClient.OnRequestComplete;
 import com.croquis.util.RestClient.RestError;
 
