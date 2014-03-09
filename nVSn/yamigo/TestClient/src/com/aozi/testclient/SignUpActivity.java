@@ -17,49 +17,62 @@ import com.croquis.util.RestClient.OnRequestComplete;
 import com.croquis.util.RestClient.RestError;
 
 @EActivity(R.layout.signup)
-public class SignUpActivity extends Activity{
+public class SignUpActivity extends Activity {
 	@ViewById
 	EditText email;
+	@ViewById
+	EditText fullName;
 	@ViewById
 	EditText password;
 	@ViewById
 	EditText passwordConfirmation;
-	
+
 	@Bean
-	TestClientRestApi mTestClientRestApi; 
-	
+	TestClientRestApi mTestClientRestApi;
+
 	@AfterInject
-	void init(){
+	void init() {
 		setTitle("SignUp");
 	}
-	
+
 	@Click
 	void signup() {
-		if(TextUtils.isEmpty(email.getText().toString())) {
+		if (TextUtils.isEmpty(email.getText().toString())) {
 			Toast.makeText(this, "email is empty", Toast.LENGTH_LONG).show();
 			return;
 		}
-		
-		if(TextUtils.isEmpty(password.getText().toString())) {
+
+		if (TextUtils.isEmpty(fullName.getText().toString())) {
+			Toast.makeText(this, "fullName is empty", Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		if (TextUtils.isEmpty(password.getText().toString())) {
 			Toast.makeText(this, "password is empty", Toast.LENGTH_LONG).show();
 			return;
 		}
-		
-		if(password.getText().toString().equals(passwordConfirmation.getText().toString())) {
-			Toast.makeText(this, "incorrect password confirmation", Toast.LENGTH_LONG).show();
+
+		if (password.getText().toString()
+				.equals(passwordConfirmation.getText().toString())) {
+			Toast.makeText(this, "incorrect password confirmation",
+					Toast.LENGTH_LONG).show();
 			return;
 		}
-		
-		final ProgressDialog progress = ProgressDialog.show(SignUpActivity.this, "SignUp", "wait for a while");
-		mTestClientRestApi.signup(email.getText().toString(), password.getText().toString(), new OnRequestComplete<Void>() {
-			@Override
-			public void onComplete(RestError error, Void result) {
-				progress.dismiss();
-				if(error != null) {
-					Toast.makeText(SignUpActivity.this, error.error, Toast.LENGTH_LONG).show();
-					return;
-				}
-			}
-		});
+
+		final ProgressDialog progress = ProgressDialog.show(
+				SignUpActivity.this, "SignUp", "wait for a while");
+		mTestClientRestApi.signup(email.getText().toString(), fullName
+				.getText().toString().trim(), password.getText().toString(),
+				new OnRequestComplete<Void>() {
+					@Override
+					public void onComplete(RestError error, Void result) {
+						progress.dismiss();
+						if (error != null) {
+							Toast.makeText(SignUpActivity.this, error.error,
+									Toast.LENGTH_LONG).show();
+							return;
+						}
+					}
+				});
 	}
 }

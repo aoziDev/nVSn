@@ -10,6 +10,7 @@ import com.croquis.util.JSONHelper;
 public class User extends CRModel{
 	private String mId;
 	private String mEmail;
+	private String mFullName;
 	
 	public User(Context context) {
 		super(context);
@@ -30,6 +31,14 @@ public class User extends CRModel{
 	public String getEmail() {
 		return mEmail;
 	}
+	
+	public String getFullName() {
+		return mFullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.mFullName = fullName;
+	}
 
 	@Override
 	public void set(JSONObject json) {
@@ -39,6 +48,10 @@ public class User extends CRModel{
 		
 		if(json.has("email")) {
 			setEmail(JSONHelper.getString(json, "email"));
+		}
+		
+		if(json.has("full_name")) {
+			setFullName(JSONHelper.getString(json, "full_name"));
 		}
 	}
 }
