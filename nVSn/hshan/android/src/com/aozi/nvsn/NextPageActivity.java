@@ -9,27 +9,26 @@ import android.view.View.OnClickListener;
 
 import com.example.nvsn.R;
 
-public class MainActivity extends Activity {
-
+public class NextPageActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.next);
 		
-		findViewById(R.id.main_btn_next).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.next_btn_logout).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				SharedPreferences pref = getSharedPreferences(HttpManager.COOKIE_PREF, Activity.MODE_PRIVATE);
-				String storedSID = pref.getString(HttpManager.SESSION_ID_KEY, "");
-				if (storedSID.equals("")) {
-					Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-					startActivity(intent);
-				} else {
-					Intent intent = new Intent(MainActivity.this, NextPageActivity.class);
-					startActivity(intent);
-				}
+				SharedPreferences.Editor editor = pref.edit();
+				editor.remove(HttpManager.SESSION_ID_KEY);
+				editor.commit();
+				
+				Intent intent = new Intent(NextPageActivity.this, LoginActivity.class);
+				startActivity(intent);
 				finish();
 			}
 		});
+		
 	}
 }

@@ -56,11 +56,6 @@
             android:layout_height="wrap_content"
             android:text="signin" />
 
-        <Button
-            android:id="@+id/btn_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="logout" />
     </LinearLayout>
 
 </LinearLayout>

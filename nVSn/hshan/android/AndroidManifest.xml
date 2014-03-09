@@ -24,6 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.aozi.nvsn.LoginActivity" />
+        <activity android:name="com.aozi.nvsn.NextPageActivity" />
     </application>
 
 </manifest>
