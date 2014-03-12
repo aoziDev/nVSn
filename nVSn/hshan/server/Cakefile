@@ -1,9 +1,0 @@
-spawn = require('child_process').spawn
-
-task 'run', 'Runs the server', (options)->
-	command = 'coffee'
-	args = ['app/server.coffee']
-	child = spawn command, args, stdio: 'inherit'
-
-process.on 'SIGTERM', ->
-	child.kill 'SIGTERM'
