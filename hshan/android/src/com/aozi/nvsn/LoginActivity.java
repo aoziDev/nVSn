@@ -12,7 +12,6 @@ import org.apache.http.impl.cookie.CookieSpecBase;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +20,7 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.aozi.util.CookieManager;
 import com.example.nvsn.R;
 
 interface Callback {
@@ -63,15 +63,13 @@ public class LoginActivity extends Activity {
 				
 				httpManager.setOnPostExecute(new HttpManager.OnPostExecute() {
 					@Override
-					public void execute(HttpResponse response) {
-						String sessionID = httpManager.getSessionID(response, getSavedSessionID());
-						JSONObjectBuilder result = httpManager.getJsonResult(response);
-						
+					public void execute(HttpResponse response, JSONObjectBuilder result) {
+						String sessionID = httpManager.getSessionID(response, CookieManager.getInstance(LoginActivity.this).getSavedSessionID());
 						if (result.getInt("status") != 200) {
 							return;
 						}
 						
-						saveSessionID(sessionID);
+						CookieManager.getInstance(LoginActivity.this).saveSessionID(sessionID);
 						
 						Intent intent = new Intent(LoginActivity.this, NextPageActivity.class);
 						startActivity(intent);
@@ -85,20 +83,8 @@ public class LoginActivity extends Activity {
 	
 	public Header createCookieHeader() {
 		List<Cookie> cookieList = new ArrayList<Cookie>();
-		cookieList.add(new BasicClientCookie(HttpManager.SESSION_ID_KEY, getSavedSessionID()));
+		cookieList.add(new BasicClientCookie(CookieManager.KEY_SESSION_ID, CookieManager.getInstance(LoginActivity.this).getSavedSessionID()));
 		CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
 		return cookieSpecBase.formatCookies(cookieList).get(0);
-	}
-	
-	private String getSavedSessionID() {
-		SharedPreferences pref = getSharedPreferences(HttpManager.COOKIE_PREF, Activity.MODE_PRIVATE);
-		return pref.getString(HttpManager.SESSION_ID_KEY, "");
-	}
-
-	private void saveSessionID(String sessionID) {
-		SharedPreferences pref = getSharedPreferences(HttpManager.COOKIE_PREF, Activity.MODE_PRIVATE);
-		SharedPreferences.Editor editor = pref.edit();
-		editor.putString(HttpManager.SESSION_ID_KEY, sessionID);
-		editor.commit();
 	}
 }

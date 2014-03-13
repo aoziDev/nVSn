@@ -6,26 +6,31 @@ module.exports = (app) ->
 		user.email = req.body.email
 		user.password = req.body.password
 		UserModel.findOne email: user.email, (err, _user) ->
-			console.log _user
-			(user.save () ->) if not _user and not err
-		res.send 'signup'
+			res.send status:400, message:'Error' if err
+			(user.save () ->) if not _user
+
+		res.send status:200, message:'Sucess signup' 
 
 	app.post '/login', (req, res) ->
 		UserModel.findOne email: req.body.email, (err, _user) ->
-			if _user and _user.authenticate req.body.password
-				req.session.login_id = user.email
-				result = 'sucess'
-				console.log "login success result = #{result}"
-			else
-				result = 'fail'
-				console.log "login fail result = #{result}"
-				console.log 'fail login'
+			res.send status:400, message:'Error' if err
 
-			console.log "before return = #{result}"
-			res.send "{result:#{result}}" 
+			if _user and _user.authenticate req.body.password
+				req.session.login_id = _user.email
+				res.send status:200, message:'Success to login'
+			else
+				res.send status:401, message:'Unauthoized'
 
 	app.get '/logout', (req, res) ->
 		delete req.session?.login_id
-		res.send 'logout'	
+		res.send status:200, message:'Success logout'	
 	
-	
+	app.get '/sessionInfo', (req, res) ->
+		login_id = req.session.login_id
+		console.log "login_id #{login_id}"
+		if login_id
+			res.send status:200, message:'Valid session.', user_id:login_id 
+		else 
+  			res.send status:400, message:'Invalid session.'
+	 
+

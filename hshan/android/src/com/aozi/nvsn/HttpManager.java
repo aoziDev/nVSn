@@ -26,6 +26,8 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import com.aozi.util.CookieManager;
+
 import android.os.AsyncTask;
 
 enum Method {
@@ -64,9 +66,8 @@ enum Method {
 
 
 public class HttpManager {
-	public static final String SESSION_ID_KEY = "connect.sid";
-	public static final String COOKIE_KEY = "Set-Cookie";
-	public static final String COOKIE_PREF = "cookie";
+	public static final String USER_EMAIL = "user.email";
+	public static final String IS_LOGIN = "islogined";
 	
 	public static final String URL = "http://121.254.40.70:3000";
 	
@@ -74,7 +75,7 @@ public class HttpManager {
 	private OnPostExecute onPostExecute;
 	
 	public static interface OnPostExecute {
-		void execute(HttpResponse response);
+		void execute(HttpResponse response, JSONObjectBuilder result);
 	}
 
 	public HttpManager(Method method, Header[] headers, String contentType, String path, JSONObject param) {
@@ -107,14 +108,14 @@ public class HttpManager {
 			@Override
 			protected void onPostExecute(HttpResponse response) {
 				if (onPostExecute != null) {
-					onPostExecute.execute(response);
+					onPostExecute.execute(response, getJsonResult(response));
 				}
 			}
 		}.execute(request);
 	}
 	
 	public String getSessionID(HttpResponse response, String defaultValue) {
-		Header[] headers = response.getHeaders(HttpManager.COOKIE_KEY);
+		Header[] headers = response.getHeaders(CookieManager.KEY_COOKIE_HEADER);
 		
 		if (headers.length != 0) {
 			Header cookie = headers[0];
@@ -141,7 +142,7 @@ public class HttpManager {
 	
 	public Header createCookieHeader(String sessionID) {
 		List<Cookie> cookieList = new ArrayList<Cookie>();
-		cookieList.add(new BasicClientCookie(SESSION_ID_KEY, sessionID));
+		cookieList.add(new BasicClientCookie(CookieManager.KEY_SESSION_ID, sessionID));
 		CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
 		return cookieSpecBase.formatCookies(cookieList).get(0);
 	}
