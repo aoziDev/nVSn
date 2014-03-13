@@ -1,4 +1,4 @@
-package com.aozi.nvsn;
+package com.aozi.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -26,24 +26,21 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-import com.aozi.util.CookieManager;
-
+import android.content.Context;
 import android.os.AsyncTask;
 
 enum Method {
 	GET {
 		@Override
-		HttpUriRequest getRequest(Header[] headers, String urlPath, JSONObject param) {
+		HttpUriRequest getRequest(String urlPath, JSONObject param) {
 			HttpGet httpGet = new HttpGet(urlPath);
-			addHeaders(httpGet, headers);
 			return httpGet;
 		}
 	},	
 	POST {
 		@Override
-		HttpUriRequest getRequest(Header[] headers, String urlPath, JSONObject param) {
+		HttpUriRequest getRequest(String urlPath, JSONObject param) {
 			HttpPost httpPost = new HttpPost(urlPath);
-			addHeaders(httpPost, headers);
 			if (param != null) {
 				try {
 					httpPost.setEntity(new StringEntity(param.toString(), HTTP.UTF_8));
@@ -55,13 +52,7 @@ enum Method {
 		}
 	};
 	
-	void addHeaders(HttpUriRequest request, Header[] headers) {
-		for (Header header : headers) {
-			request.addHeader(header);
-		}
-	}
-	
-	abstract HttpUriRequest getRequest(Header[] headers, String path, JSONObject param); 
+	abstract HttpUriRequest getRequest(String path, JSONObject param); 
 }
 
 
@@ -72,23 +63,22 @@ public class HttpManager {
 	public static final String URL = "http://121.254.40.70:3000";
 	
 	private HttpUriRequest request;
-	private OnPostExecute onPostExecute;
+	@SuppressWarnings("unused")
+	private Context context;
+	private CookieManager cookieManager;
 	
 	public static interface OnPostExecute {
 		void execute(HttpResponse response, JSONObjectBuilder result);
 	}
 
-	public HttpManager(Method method, Header[] headers, String contentType, String path, JSONObject param) {
-		String urlStr = URL + (path.startsWith("/") ? path : "/"+path);
-		request = method.getRequest(headers, urlStr, param);
-		request.addHeader(new BasicHeader(HTTP.CONTENT_TYPE, contentType));
+	public HttpManager(Context context) {
+		this.context = context;
+		this.cookieManager = CookieManager.getInstance(context);
 	}
 	
-	public void setOnPostExecute(OnPostExecute onPostExecute) {
-		this.onPostExecute = onPostExecute;
-	}
-	
-	public void execute() {
+	public void execute(Method method, String contentType, String path, JSONObject param, final OnPostExecute onPostExecute) {
+		createRequest(method, contentType, path, param);
+
 		new AsyncTask<HttpUriRequest, Void, HttpResponse>() {
 			@Override
 			protected HttpResponse doInBackground(HttpUriRequest... request) {
@@ -108,13 +98,21 @@ public class HttpManager {
 			@Override
 			protected void onPostExecute(HttpResponse response) {
 				if (onPostExecute != null) {
+					saveSessionID(getSessionID(response));
 					onPostExecute.execute(response, getJsonResult(response));
 				}
 			}
 		}.execute(request);
 	}
 	
-	public String getSessionID(HttpResponse response, String defaultValue) {
+	private void createRequest(Method method, String contentType, String path, JSONObject param) {
+		String urlStr = URL + (path.startsWith("/") ? path : "/"+path);
+		request = method.getRequest(urlStr, param);
+		request.addHeader(new BasicHeader(HTTP.CONTENT_TYPE, contentType));
+		request.addHeader(createCookieHeader());
+	}
+
+	public String getSessionID(HttpResponse response) {
 		Header[] headers = response.getHeaders(CookieManager.KEY_COOKIE_HEADER);
 		
 		if (headers.length != 0) {
@@ -123,9 +121,20 @@ public class HttpManager {
 			return elements[0].getValue();
 		}
 		
-		return defaultValue;
+		return cookieManager.getSavedSessionID();
 	}
 
+	private Header createCookieHeader() {
+		List<Cookie> cookieList = new ArrayList<Cookie>();
+		cookieList.add(new BasicClientCookie(CookieManager.KEY_SESSION_ID, cookieManager.getSavedSessionID()));
+		CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
+		return cookieSpecBase.formatCookies(cookieList).get(0);
+	}
+	
+	private void saveSessionID(String sessionID) {
+		cookieManager.saveSessionID(sessionID);
+	}
+	
 	public JSONObjectBuilder getJsonResult(HttpResponse response) {
 		HttpEntity resEntity = response.getEntity();
 		String result = "";
@@ -138,12 +147,5 @@ public class HttpManager {
 		}
 		
 		return JSONObjectBuilder.create(result);
-	}
-	
-	public Header createCookieHeader(String sessionID) {
-		List<Cookie> cookieList = new ArrayList<Cookie>();
-		cookieList.add(new BasicClientCookie(CookieManager.KEY_SESSION_ID, sessionID));
-		CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
-		return cookieSpecBase.formatCookies(cookieList).get(0);
 	}
 }

@@ -1,4 +1,4 @@
-package com.aozi.nvsn;
+package com.aozi.util;
 
 import org.json.JSONException;
 import org.json.JSONObject;
