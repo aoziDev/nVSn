@@ -166,7 +166,7 @@ public class HttpManager {
 				jsonBuilder = getJsonResult(response);
 				
 				int statusCode = response.getStatusLine().getStatusCode();
-				isError = (statusCode >= 200 && statusCode < 300);
+				isError = !(statusCode >= 200 && statusCode < 300);
 				message = jsonBuilder.getString("message");
 			}
 		}
