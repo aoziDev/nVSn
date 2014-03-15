@@ -34,8 +34,17 @@ public class HttpManager {
 	public static final String IS_LOGIN = "islogined";
 	public static final String URL = "http://121.254.40.70:3000";
 	
-	public static interface OnPostExecute {
-		void execute(HttpResponse response, JSONObjectBuilder result);
+	public static abstract class OnPostExecute {
+		public void execute(Result result) {
+			if (result.isError) {
+				onError(result);
+			} else {
+				onSuccess(result);
+			}
+		}
+		
+		public abstract void onSuccess(Result result);
+		public abstract void onError(Result result);
 	}
 
 	public enum Method {
@@ -83,6 +92,7 @@ public class HttpManager {
 				HttpResponse response = null;
 				try {
 					response = client.execute(request[0]);
+					saveSessionID(getSessionID(response));
 				} catch (ClientProtocolException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -95,8 +105,7 @@ public class HttpManager {
 			@Override
 			protected void onPostExecute(HttpResponse response) {
 				if (onPostExecute != null) {
-					saveSessionID(getSessionID(response));
-					onPostExecute.execute(response, getJsonResult(response));
+					onPostExecute.execute(new Result(response));
 				}
 			}
 		}.execute(request);
@@ -145,4 +154,28 @@ public class HttpManager {
 		
 		return JSONObjectBuilder.create(result);
 	}
+	
+	public class Result {
+		public boolean isError = false;
+		public String message = "";
+		private JSONObjectBuilder jsonBuilder = null;
+		
+		public Result(HttpResponse response) {
+			if (response == null) {
+				isError = true;
+				message = "Network error";
+			} else {
+				jsonBuilder = getJsonResult(response);
+				
+				int statusCode = response.getStatusLine().getStatusCode();
+				isError = (statusCode >= 200 && statusCode < 300);
+				message = jsonBuilder.getString("message");
+			}
+		}
+
+		public JSONObjectBuilder getJsonObject() {
+			return jsonBuilder;
+		}
+	}
 }
+

@@ -1,17 +1,16 @@
 package com.aozi.nvsn.activity;
 
-import org.apache.http.HttpResponse;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.aozi.model.UserMe;
 import com.aozi.util.HttpManager.OnPostExecute;
-import com.aozi.util.JSONObjectBuilder;
+import com.aozi.util.HttpManager.Result;
 import com.example.nvsn.R;
 
 interface Callback {
@@ -46,14 +45,15 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				userMe.login(et_email.getText().toString(), et_password.getText().toString(), new OnPostExecute() {
 					@Override
-					public void execute(HttpResponse response, JSONObjectBuilder result) {
-						if (result.getInt("status") != 200) {
-							return;
-						}
-						
+					public void onSuccess(Result result) {
 						Intent intent = new Intent(LoginActivity.this, NextPageActivity.class);
 						startActivity(intent);
 						finish();
+					}
+
+					@Override
+					public void onError(Result result) {
+						Toast.makeText(getApplicationContext(), result.message, Toast.LENGTH_SHORT).show();
 					}
 				});
 			}

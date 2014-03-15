@@ -1,11 +1,11 @@
 package com.aozi.model;
 
-import org.apache.http.HttpResponse;
-
 import android.content.Context;
+import android.widget.Toast;
 
 import com.aozi.nvsn.util.RestClient;
 import com.aozi.util.HttpManager.OnPostExecute;
+import com.aozi.util.HttpManager.Result;
 import com.aozi.util.JSONObjectBuilder;
 
 public class UserMe {
@@ -14,12 +14,11 @@ public class UserMe {
 	private String user_id = "";
 	private boolean isLogined = false;
 
-	@SuppressWarnings("unused")
 	private Context context = null;
 	private RestClient client = null;
 	
 	private UserMe(Context context) {
-		this.context = context;
+		this.context = context.getApplicationContext();
 		this.client = RestClient.getInstance(context);
 	}
 	
@@ -48,9 +47,15 @@ public class UserMe {
 	public void checkLogin() {
 		client.checkSessionInfo(null, new OnPostExecute() {
 			@Override
-			public void execute(HttpResponse response, JSONObjectBuilder result) {
-				if (result.has("user_id")) {
-					setInfo(result);
+			public void onError(Result result) {
+				Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show();
+			}
+
+			@Override
+			public void onSuccess(Result result) {
+				JSONObjectBuilder jsonObject = result.getJsonObject();
+				if (jsonObject.has("user_id")) {
+					setInfo(jsonObject);
 				}
 			}
 		});

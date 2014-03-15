@@ -1,6 +1,6 @@
 package com.aozi.nvsn.activity;
 
-import org.apache.http.HttpResponse;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,11 +11,12 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.aozi.nvsn.util.RestClient;
 import com.aozi.util.HttpManager.OnPostExecute;
+import com.aozi.util.HttpManager.Result;
 import com.aozi.util.JSONObjectBuilder;
-import com.aozi.util.Util;
 import com.example.nvsn.R;
 
 public class SignupActivity extends Activity {
@@ -50,8 +51,13 @@ public class SignupActivity extends Activity {
 
 				RestClient.getInstance(getApplicationContext()).signup(param, new OnPostExecute() {
 					@Override
-					public void execute(HttpResponse response, JSONObjectBuilder result) {
+					public void onSuccess(Result result) {
 						finish();
+					}
+
+					@Override
+					public void onError(Result result) {
+						Toast.makeText(getApplicationContext(), result.message, Toast.LENGTH_SHORT).show();						
 					}
 				});
 			};
@@ -69,7 +75,6 @@ public class SignupActivity extends Activity {
 			}
 		});
 		
-		
 		et_password = (EditText)findViewById(R.id.signup_password);
 		
 		et_password_confirm = (EditText)findViewById(R.id.signup_password_confirm);
@@ -84,12 +89,17 @@ public class SignupActivity extends Activity {
 	}
 	
 	private boolean isValidEmail() {
-		return Util.isValidEmail(et_email.getText().toString());
+		Pattern email_pattern = Pattern.compile("[a-zA-Z0-9\\.\\+\\_\\-]{1,20}\\@[a-zA-Z0-9\\-]+\\.[a-zA-Z]+");
+		return email_pattern.matcher(et_email.getText().toString()).matches();
 	}
 	
 	private boolean isValidPassword() {
 		String password = et_password.getText().toString();
 		String passwordConfirm = et_password_confirm.getText().toString();
+		
+		if (password.equals("") | passwordConfirm.equals("")) {
+			return false;
+		}
 		
 		return password.equals(passwordConfirm);
 	}

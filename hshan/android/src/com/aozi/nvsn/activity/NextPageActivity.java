@@ -1,7 +1,5 @@
 package com.aozi.nvsn.activity;
 
-import org.apache.http.HttpResponse;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +8,7 @@ import android.view.View.OnClickListener;
 
 import com.aozi.model.UserMe;
 import com.aozi.util.HttpManager.OnPostExecute;
-import com.aozi.util.JSONObjectBuilder;
+import com.aozi.util.HttpManager.Result;
 import com.example.nvsn.R;
 
 public class NextPageActivity extends Activity {
@@ -26,10 +24,15 @@ public class NextPageActivity extends Activity {
 			public void onClick(View v) {
 				userMe.logout(new OnPostExecute() {
 					@Override
-					public void execute(HttpResponse response, JSONObjectBuilder result) {
+					public void onSuccess(Result result) {
 						Intent intent = new Intent(NextPageActivity.this, LoginActivity.class);
 						startActivity(intent);
-						finish();
+						finish();						
+					}
+
+					@Override
+					public void onError(Result result) {
+						
 					}
 				});
 			}
