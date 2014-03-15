@@ -74,12 +74,10 @@ public class HttpManager {
 	}
 	
 	private HttpUriRequest request;
-	private Context context;
 	private CookieManager cookieManager;
 	
 	public HttpManager(Context context) {
-		this.context = context.getApplicationContext();
-		this.cookieManager = CookieManager.getInstance(this.context);
+		this.cookieManager = CookieManager.getInstance(context);
 	}
 	
 	public void execute(Method method, String contentType, String path, JSONObject param, final OnPostExecute onPostExecute) {

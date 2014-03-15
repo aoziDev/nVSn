@@ -11,9 +11,9 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.aozi.nvsn.util.RestClient;
+import com.aozi.util.DialogManager;
 import com.aozi.util.HttpManager.OnPostExecute;
 import com.aozi.util.HttpManager.Result;
 import com.aozi.util.JSONObjectBuilder;
@@ -57,7 +57,7 @@ public class SignupActivity extends Activity {
 
 					@Override
 					public void onError(Result result) {
-						Toast.makeText(getApplicationContext(), result.message, Toast.LENGTH_SHORT).show();						
+						DialogManager.showErrorDialog(SignupActivity.this, result.message);
 					}
 				});
 			};

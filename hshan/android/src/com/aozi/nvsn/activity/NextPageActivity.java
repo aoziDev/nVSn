@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.aozi.model.UserMe;
+import com.aozi.util.DialogManager;
 import com.aozi.util.HttpManager.OnPostExecute;
 import com.aozi.util.HttpManager.Result;
 import com.example.nvsn.R;
@@ -18,7 +19,7 @@ public class NextPageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.next);
 		
-		userMe = UserMe.getInstance(getApplicationContext());
+		userMe = UserMe.getInstance(NextPageActivity.this);
 		findViewById(R.id.next_btn_logout).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -32,7 +33,7 @@ public class NextPageActivity extends Activity {
 
 					@Override
 					public void onError(Result result) {
-						
+						DialogManager.showErrorDialog(NextPageActivity.this, result.message);
 					}
 				});
 			}

@@ -10,7 +10,8 @@
     <string name="signup_input_password_confirm">Confirm your password</string>
     <string name="signup_button">signup</string>
     <string name="logout_button">logout</string>
-    <string name="signin_header">Signin</string>
-    <string name="signin_button">signin</string>
+    <string name="signin_header">Sign in</string>
+    <string name="signin_button">sign in</string>
+    <string name="error">Error</string>
 
 </resources>

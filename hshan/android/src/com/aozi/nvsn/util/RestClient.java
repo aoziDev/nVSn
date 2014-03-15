@@ -14,10 +14,7 @@ public class RestClient {
 	
 	private HttpManager httpManager = null;
 
-	@SuppressWarnings("unused")
-	private Context context;
 	private RestClient(Context context){
-		this.context = context;
 		httpManager = new HttpManager(context);
 	}
 	

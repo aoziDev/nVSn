@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.aozi.model.UserMe;
+import com.aozi.util.DialogManager;
 import com.aozi.util.HttpManager.OnPostExecute;
 import com.aozi.util.HttpManager.Result;
 import com.example.nvsn.R;
@@ -25,7 +25,7 @@ public class SigninActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.signin);
 		
-		userMe = UserMe.getInstance(getApplicationContext());
+		userMe = UserMe.getInstance(SigninActivity.this);
 		
 		final EditText et_email = (EditText)findViewById(R.id.et_email);
 		final EditText et_password = (EditText)findViewById(R.id.et_password);
@@ -53,7 +53,7 @@ public class SigninActivity extends Activity {
 
 					@Override
 					public void onError(Result result) {
-						Toast.makeText(getApplicationContext(), result.message, Toast.LENGTH_SHORT).show();
+						DialogManager.showErrorDialog(SigninActivity.this, result.message);
 					}
 				});
 			}
