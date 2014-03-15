@@ -1,15 +1,12 @@
-package com.aozi.nvsn;
+package com.aozi.nvsn.activity;
 
 import org.apache.http.HttpResponse;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.aozi.model.UserMe;
@@ -34,16 +31,17 @@ public class LoginActivity extends Activity {
 		final EditText et_email = (EditText)findViewById(R.id.et_email);
 		final EditText et_password = (EditText)findViewById(R.id.et_password);
 
-		Button btn_signup = (Button)findViewById(R.id.btn_signup);
-		btn_signup.setOnTouchListener(new OnTouchListener() {
+		findViewById(R.id.btn_signup).setOnClickListener(new OnClickListener() {
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				return false;
+			public void onClick(View v) {
+				Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+				intent.putExtra("email", et_email.getText().toString());
+				intent.putExtra("password", et_password.getText().toString());
+				startActivity(intent);
 			}
 		});
 
-		Button btn_signin = (Button)findViewById(R.id.btn_signin);
-		btn_signin.setOnClickListener(new OnClickListener() {
+		findViewById(R.id.btn_signin).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				userMe.login(et_email.getText().toString(), et_password.getText().toString(), new OnPostExecute() {

@@ -29,47 +29,45 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.AsyncTask;
 
-enum Method {
-	GET {
-		@Override
-		HttpUriRequest getRequest(String urlPath, JSONObject param) {
-			HttpGet httpGet = new HttpGet(urlPath);
-			return httpGet;
-		}
-	},	
-	POST {
-		@Override
-		HttpUriRequest getRequest(String urlPath, JSONObject param) {
-			HttpPost httpPost = new HttpPost(urlPath);
-			if (param != null) {
-				try {
-					httpPost.setEntity(new StringEntity(param.toString(), HTTP.UTF_8));
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-			}
-			return httpPost;
-		}
-	};
-	
-	abstract HttpUriRequest getRequest(String path, JSONObject param); 
-}
-
-
 public class HttpManager {
 	public static final String USER_EMAIL = "user.email";
 	public static final String IS_LOGIN = "islogined";
-	
 	public static final String URL = "http://121.254.40.70:3000";
-	
-	private HttpUriRequest request;
-	private Context context;
-	private CookieManager cookieManager;
 	
 	public static interface OnPostExecute {
 		void execute(HttpResponse response, JSONObjectBuilder result);
 	}
 
+	public enum Method {
+		GET {
+			@Override
+			HttpUriRequest getRequest(String urlPath, JSONObject param) {
+				HttpGet httpGet = new HttpGet(urlPath);
+				return httpGet;
+			}
+		},	
+		POST {
+			@Override
+			HttpUriRequest getRequest(String urlPath, JSONObject param) {
+				HttpPost httpPost = new HttpPost(urlPath);
+				if (param != null) {
+					try {
+						httpPost.setEntity(new StringEntity(param.toString(), HTTP.UTF_8));
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+				}
+				return httpPost;
+			}
+		};
+		
+		abstract HttpUriRequest getRequest(String path, JSONObject param); 
+	}
+	
+	private HttpUriRequest request;
+	private Context context;
+	private CookieManager cookieManager;
+	
 	public HttpManager(Context context) {
 		this.context = context.getApplicationContext();
 		this.cookieManager = CookieManager.getInstance(this.context);

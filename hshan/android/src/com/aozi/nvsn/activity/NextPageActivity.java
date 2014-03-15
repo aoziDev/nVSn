@@ -1,4 +1,4 @@
-package com.aozi.nvsn;
+package com.aozi.nvsn.activity;
 
 import org.apache.http.HttpResponse;
 

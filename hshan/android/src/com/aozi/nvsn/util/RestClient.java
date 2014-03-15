@@ -1,10 +1,13 @@
-package com.aozi.util;
+package com.aozi.nvsn.util;
 
 import org.json.JSONObject;
 
 import android.content.Context;
 
+import com.aozi.util.HttpManager;
+import com.aozi.util.HttpManager.Method;
 import com.aozi.util.HttpManager.OnPostExecute;
+import com.aozi.util.JSONObjectBuilder;
 
 public class RestClient {
 	private static RestClient INSTANCE = null;
@@ -41,4 +44,7 @@ public class RestClient {
 		request(Method.GET, "application/json", "logout", null, onPostExecute);
 	}
 	
+	public void signup(JSONObject param, OnPostExecute onPostExecute) {
+		request(Method.POST, "application/json", "signup", param, onPostExecute);
+	}
 }

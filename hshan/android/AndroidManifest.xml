@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         <activity
-            android:name="com.aozi.nvsn.MainActivity"
+            android:name="com.aozi.nvsn.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,8 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.aozi.nvsn.LoginActivity" />
-        <activity android:name="com.aozi.nvsn.NextPageActivity" />
+
+        <activity android:name="com.aozi.nvsn.activity.LoginActivity" />
+        <activity android:name="com.aozi.nvsn.activity.NextPageActivity" />
+        <activity android:name="com.aozi.nvsn.activity.SignupActivity" />
     </application>
 
 </manifest>

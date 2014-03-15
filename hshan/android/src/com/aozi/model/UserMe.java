@@ -4,9 +4,9 @@ import org.apache.http.HttpResponse;
 
 import android.content.Context;
 
+import com.aozi.nvsn.util.RestClient;
 import com.aozi.util.HttpManager.OnPostExecute;
 import com.aozi.util.JSONObjectBuilder;
-import com.aozi.util.RestClient;
 
 public class UserMe {
 	private static UserMe INSTANCE = null;
