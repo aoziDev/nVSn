@@ -63,7 +63,6 @@ public class HttpManager {
 	public static final String URL = "http://121.254.40.70:3000";
 	
 	private HttpUriRequest request;
-	@SuppressWarnings("unused")
 	private Context context;
 	private CookieManager cookieManager;
 	
@@ -72,8 +71,8 @@ public class HttpManager {
 	}
 
 	public HttpManager(Context context) {
-		this.context = context;
-		this.cookieManager = CookieManager.getInstance(context);
+		this.context = context.getApplicationContext();
+		this.cookieManager = CookieManager.getInstance(this.context);
 	}
 	
 	public void execute(Method method, String contentType, String path, JSONObject param, final OnPostExecute onPostExecute) {

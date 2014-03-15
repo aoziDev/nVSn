@@ -18,7 +18,7 @@ public class CookieManager {
 	
 	public static CookieManager getInstance(Context context) {
 		if (INSTANCE == null) {
-			INSTANCE = new CookieManager(context);
+			INSTANCE = new CookieManager(context.getApplicationContext());
 		}
 		
 		return INSTANCE;

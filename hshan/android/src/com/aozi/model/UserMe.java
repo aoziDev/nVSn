@@ -25,7 +25,7 @@ public class UserMe {
 	
 	public static UserMe getInstance(Context context) {
 		if (INSTANCE == null) {
-			INSTANCE = new UserMe(context);
+			INSTANCE = new UserMe(context.getApplicationContext());
 		}
 		
 		return INSTANCE;

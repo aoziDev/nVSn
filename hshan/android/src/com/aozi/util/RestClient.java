@@ -20,7 +20,7 @@ public class RestClient {
 	
 	public static RestClient getInstance(Context context) {
 		if (INSTANCE == null) {
-			INSTANCE = new RestClient(context);
+			INSTANCE = new RestClient(context.getApplicationContext());
 		}
 		return INSTANCE;
 	}
