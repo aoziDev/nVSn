@@ -17,13 +17,13 @@ interface Callback {
 	void execute();
 }
 
-public class LoginActivity extends Activity {
+public class SigninActivity extends Activity {
 	private UserMe userMe;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login);
+		setContentView(R.layout.signin);
 		
 		userMe = UserMe.getInstance(getApplicationContext());
 		
@@ -33,7 +33,7 @@ public class LoginActivity extends Activity {
 		findViewById(R.id.btn_signup).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+				Intent intent = new Intent(SigninActivity.this, SignupActivity.class);
 				intent.putExtra("email", et_email.getText().toString());
 				intent.putExtra("password", et_password.getText().toString());
 				startActivity(intent);
@@ -46,7 +46,7 @@ public class LoginActivity extends Activity {
 				userMe.login(et_email.getText().toString(), et_password.getText().toString(), new OnPostExecute() {
 					@Override
 					public void onSuccess(Result result) {
-						Intent intent = new Intent(LoginActivity.this, NextPageActivity.class);
+						Intent intent = new Intent(SigninActivity.this, NextPageActivity.class);
 						startActivity(intent);
 						finish();
 					}

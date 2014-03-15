@@ -2,11 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nvsn"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" xmlns:tools="http://schemas.android.com/tools">
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="18" 
+        tools:ignore="OldTargetApi"/>
 
     <uses-permission android:name="android.permission.INTERNET" ></uses-permission>
 
@@ -25,7 +26,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.aozi.nvsn.activity.LoginActivity" />
+        <activity android:name="com.aozi.nvsn.activity.SigninActivity" />
         <activity android:name="com.aozi.nvsn.activity.NextPageActivity" />
         <activity android:name="com.aozi.nvsn.activity.SignupActivity" />
     </application>

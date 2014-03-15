@@ -25,7 +25,7 @@ public class NextPageActivity extends Activity {
 				userMe.logout(new OnPostExecute() {
 					@Override
 					public void onSuccess(Result result) {
-						Intent intent = new Intent(NextPageActivity.this, LoginActivity.class);
+						Intent intent = new Intent(NextPageActivity.this, SigninActivity.class);
 						startActivity(intent);
 						finish();						
 					}

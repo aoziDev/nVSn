@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
 					Intent intent = new Intent(MainActivity.this, NextPageActivity.class);
 					startActivity(intent);
 				} else {
-					Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+					Intent intent = new Intent(MainActivity.this, SigninActivity.class);
 					startActivity(intent);
 				}
 				

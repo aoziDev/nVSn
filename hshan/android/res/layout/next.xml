@@ -14,6 +14,6 @@
         android:id="@+id/next_btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="logout" />
+        android:text="@string/logout_button" />
 
 </LinearLayout>
