@@ -153,6 +153,14 @@ public class HttpManager {
 		return JSONObjectBuilder.create(result);
 	}
 	
+	private int getStatusCode(JSONObjectBuilder jsonObject) {
+		if (jsonObject.has("status")) {
+			return jsonObject.getInt("status");
+		}
+		
+		return 400;
+	}
+	
 	public class Result {
 		public boolean isError = false;
 		public String message = "";
@@ -165,7 +173,7 @@ public class HttpManager {
 			} else {
 				jsonBuilder = getJsonResult(response);
 				
-				int statusCode = response.getStatusLine().getStatusCode();
+				int statusCode = getStatusCode(jsonBuilder);
 				isError = !(statusCode >= 200 && statusCode < 300);
 				message = jsonBuilder.getString("message");
 			}
