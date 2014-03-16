@@ -26,11 +26,14 @@ module.exports = (app) ->
 		res.send status:200, message:'Success logout'	
 	
 	app.get '/sessionInfo', (req, res) ->
-		login_id = req.session.login_id
+		res.send status:400, message:'Redis server is not working.' if not req.session
+		console.log "req.session : #{req.session}"
+
+		login_id = req.session?.login_id
 		console.log "login_id #{login_id}"
 		if login_id
 			res.send status:200, message:'Valid session.', user_id:login_id 
 		else 
-  			res.send status:400, message:'Invalid session.'
+  			res.send status:200, message:'Need a login.'
 	 
 
